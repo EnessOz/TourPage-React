@@ -1,0 +1,38 @@
+import React, { useState } from 'react';
+import "./informations.css";
+
+function Informations({ items, handleDelete }) {
+  const [showFullInfo, setShowFullInfo] = useState({});
+
+  const toggleInfo = (itemId) => {
+    setShowFullInfo((prevState) => ({
+      ...prevState,
+      [itemId]: !prevState[itemId]
+    }));
+  };
+
+  return (
+    <div>
+      {items.map((item) => (
+        <div key={item.id} className="item">
+          <div className="item-container">
+            <img className="image" src={item.image} alt={item.name} />
+            <div className="image-overlay">
+              <div className="price">{item.price}$</div>
+            </div>
+          </div>
+          <div className="text" key={item.id}>{item.name}</div>
+          <div className="description">
+            {showFullInfo[item.id] ? item.info : `${item.info.slice(0, 100)}...`}
+            <span className="read-more" onClick={() => toggleInfo(item.id)}>
+              {showFullInfo[item.id] ? "Read Less" : "Read More"}
+            </span>
+          </div>
+          <button className="button" onClick={() => handleDelete(item.id)}>Not Interested</button>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default Informations;
